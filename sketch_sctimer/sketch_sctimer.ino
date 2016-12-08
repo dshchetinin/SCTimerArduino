@@ -89,18 +89,21 @@ void clear_lcd(unsigned long average) {
 }
 
 void print_time(unsigned long minutes, unsigned long seconds, unsigned long milliseconds) {
-    if (minutes < 10) {
-      lcd.print("0");
-      lcd.print(minutes);
-      lcd.print(":");
-    } else {
-      lcd.print(minutes);
-      lcd.print(":");
-    }
-    if (seconds < 10) {
-      lcd.print("0");
-    }
-    lcd.print( seconds);
-    lcd.print(":");
-    lcd.print(milliseconds);
+  char lcd_buffer[9];
+  sprintf(lcd_buffer, "%02lu:%02lu:%03lu", minutes, seconds, milliseconds);
+  lcd.print(lcd_buffer);
+//    if (minutes < 10) {
+//      lcd.print("0");
+//      lcd.print(minutes);
+//      lcd.print(":");
+//    } else {
+//      lcd.print(minutes);
+//      lcd.print(":");
+//    }
+//    if (seconds < 10) {
+//      lcd.print("0");
+//    }
+//    lcd.print( seconds);
+//    lcd.print(":");
+//    lcd.print(milliseconds);
 }
