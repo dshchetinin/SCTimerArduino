@@ -2,54 +2,58 @@
 LiquidCrystal lcd(13, 12, 11, 10,  9,  8);
 //#define RED_LED 7
 //#define GREEN_LED 6
-//const int resetButton = 5;
+const int resetButton = 5;
 const int leftHandButton = 4;
 const int rightHandButton = 3;
 
 int leftButtonState = 0;
 int rightButtonState = 0;
+int resetButtonState = 0;
 int running = 0;
 int count = 0;
 unsigned long average = 0;
 unsigned long oldTime = 0;
+
+void(* resetFunc) (void) = 0;
 
 void setup() {
   lcd.begin(16, 2);
   lcd.print("*SCTimerArduino*");
 //  pinMode (RED_LED, OUTPUT);
 //  pinMode (GREEN_LED, OUTPUT);
-
 }
-
+     
 void loop() {
   lcd.setCursor(4,1);
-  unsigned long currentTime = millis();
   
   leftButtonState = digitalRead(leftHandButton);
-  rightButtonState = digitalRead(rightHandButton);   
+  rightButtonState = digitalRead(rightHandButton);
+  resetButtonState = digitalRead(resetButton);
   
+  unsigned long currentTime = millis();
   unsigned long now = (currentTime - oldTime);
   unsigned long minutes = (now/1000)/60;
   unsigned long seconds = (now/1000)%60;
   unsigned long milliseconds = now%1000;
-
+  
+  // Reset timer
+  if (resetButtonState) {
+    resetFunc();
+  }
+  
   if (running) {
     print_time(minutes, seconds, milliseconds);
   }
-    // reset
-  if (leftButtonState && rightButtonState)
-  {
-    if (running)
-    {
+  
+  // Start-Stop timer
+  if (leftButtonState && rightButtonState) {
+    if (running) {
       count += 1;
       average = (average+now)/count;
-      reset(average);
+      stop_timer(average);
       running = 0;
-    }
-    else 
-    {
-      while(leftButtonState && rightButtonState)
-      {
+    } else {
+      while(leftButtonState && rightButtonState) {
           leftButtonState = digitalRead(leftHandButton); 
           rightButtonState = digitalRead(rightHandButton);
           lcd.setCursor(0,0);
@@ -59,19 +63,16 @@ void loop() {
       }
       running = 1;
       unsigned long currentTime = millis();
-//      lcd.clear();
-
       oldTime = currentTime;
-
     }
   }
 }
 
-void reset(unsigned long average) {
-    clear_lcd(average);
-    delay(1000);
-    unsigned long currentTime = millis();
-    oldTime = currentTime;
+void stop_timer(unsigned long average) {
+  clear_lcd(average);
+  delay(1000);
+  unsigned long currentTime = millis();
+  oldTime = currentTime;
 }
 
 void clear_lcd(unsigned long average) {
@@ -92,18 +93,4 @@ void print_time(unsigned long minutes, unsigned long seconds, unsigned long mill
   char lcd_buffer[9];
   sprintf(lcd_buffer, "%02lu:%02lu:%03lu", minutes, seconds, milliseconds);
   lcd.print(lcd_buffer);
-//    if (minutes < 10) {
-//      lcd.print("0");
-//      lcd.print(minutes);
-//      lcd.print(":");
-//    } else {
-//      lcd.print(minutes);
-//      lcd.print(":");
-//    }
-//    if (seconds < 10) {
-//      lcd.print("0");
-//    }
-//    lcd.print( seconds);
-//    lcd.print(":");
-//    lcd.print(milliseconds);
 }
