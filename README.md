@@ -18,5 +18,5 @@ A Rubiks Cube Timer on Arduino UNO
 ![](https://github.com/dshchetinin/SCTimerArduino/blob/master/breadboard.png)
 
 ## Used examples from projects
-* [[Shimmy/rubikstimer | https://github.com/Shimmy/rubikstimer/blob/master/rubiks.ino]]
-* [[SPEEDsSTACK Stopwatch|http://www.instructables.com/id/SPEEDsSTACK-Stopwatch/?ALLSTEPS]]
+* [Shimmy/rubikstimer](https://github.com/Shimmy/rubikstimer/blob/master/rubiks.ino)
+* [SPEEDsSTACK Stopwatch](http://www.instructables.com/id/SPEEDsSTACK-Stopwatch/?ALLSTEPS)
