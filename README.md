@@ -1,5 +1,5 @@
 # SCTimerArduino
-A Rubiks Cube Timer for Arduino
+A Rubiks Cube Timer on Arduino UNO
 
 ## Hardware
 * Arduino UNO
