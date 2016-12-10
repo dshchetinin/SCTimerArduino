@@ -1,5 +1,5 @@
 #include <LiquidCrystal.h>
-LiquidCrystal lcd(13, 12, 11, 10,  9,  8);
+LiquidCrystal lcd(8, 9, 10, 11, 12, 13);
 #define RED_LED 7
 #define GREEN_LED 6
 const int resetButton = 5;
